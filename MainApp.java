@@ -1,19 +1,16 @@
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
-        AuthenticateUser();
+        //authenticateUser();
 
+        MenuChoice menuChoice = MenuChoice.NONE;
         while (true) {
-            MenuChoice menuChoice = Menu.chooseFromMenu();
+            menuChoice = Menu.chooseFromMenu(menuChoice);
             switch (menuChoice) {
-                case VIEW_OWNERS:
-                    // do something
+                case List_Home_OWNERS:
+                    ListHomeOwners();
                     break;
                 default:
                     break;
@@ -21,7 +18,10 @@ public class MainApp {
         }
     }
 
-    private static void AuthenticateUser() {
+    private static void ListHomeOwners() {
+    }
+
+    private static void authenticateUser() {
         Scanner scanner = new Scanner(System.in);
 
         String firstName = null;
@@ -30,11 +30,8 @@ public class MainApp {
             String username = scanner.nextLine();
             System.out.print("Enter your password:");
             String password = scanner.nextLine();
-            //System.out.println(username + " " + password);
             firstName = Connect.validateCredential(username, password);
-            if (firstName == null) {
-                System.out.println("Invalid username or password. Please try again.");}
-            else {
+            if (firstName != null) {
                 System.out.println(String.format("Welcome %s !!!", firstName));
             }
         }
