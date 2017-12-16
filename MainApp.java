@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
-        //authenticateUser();
+        authenticateUser();
 
         MenuChoice menuChoice = MenuChoice.NONE;
         while (true) {
@@ -19,6 +19,9 @@ public class MainApp {
     }
 
     private static void ListHomeOwners() {
+        System.out.println("============================= Home Owners ====================================");
+        Connect.printHomeOwners();
+        System.out.println("==============================================================================");
     }
 
     private static void authenticateUser() {
