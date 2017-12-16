@@ -55,6 +55,7 @@ insert Property (street, city, state, zipcode) values
 
 drop table if exists Vehicle;
 create table Vehicle(
+	vehicleId int not null auto_increment,
 	numberPlate varchar(20) not null,
 	stateRegistered char(2) not null,
 	Year int null,
@@ -62,7 +63,8 @@ create table Vehicle(
 	Model varchar(100) null,
 	Color varchar(10) null,
 	ownerId int not null,
-	primary key (numberPlate, stateRegistered)
+    primary key (vehicleId)
+	#primary key (numberPlate, stateRegistered)
 );
 
 insert Vehicle (numberPlate, stateRegistered, Year, Make, Model, Color, OwnerId) values

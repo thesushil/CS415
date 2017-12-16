@@ -7,6 +7,6 @@ public enum MenuChoice {
     UPDATE_RECORD,
     ADD_NEW_RECORD,
     DELETE_RECORD,
-    GO_TO_PREVIOUS_MENU,
+    RETURN_TO_MAIN_MENU,
     NONE;
 }

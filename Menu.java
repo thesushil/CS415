@@ -2,36 +2,47 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static MenuChoice chooseFromMenu(MenuChoice currentChoice){
+    public static MenuChoice chooseFromMenu(MenuChoice currentChoice) {
+        MenuChoice nextChoice = showMenuAndChoose(currentChoice);
+        if (nextChoice == MenuChoice.RETURN_TO_MAIN_MENU)
+            nextChoice = showMenuAndChoose(MenuChoice.NONE);
+        return nextChoice;
+    }
+
+    private static MenuChoice showMenuAndChoose(MenuChoice currentChoice) {
         showMenu(currentChoice);
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose from options above:");
         int menuNumber = scanner.nextInt();
-        MenuChoice nextChoice = FindChoice(currentChoice, menuNumber);
-        return nextChoice;
+        return FindChoice(currentChoice, menuNumber);
     }
 
     private static void showMenu(MenuChoice currentChoice){
         int menuNumber = 0;
         switch (currentChoice) {
             case DETAILS_FOR_ID:
-                System.out.println(String.format("%d: Return to Previous Menu", 0));
-                System.out.println(String.format("%d: Update Record:", ++menuNumber));
-                System.out.println(String.format("%d: Add New Record:", ++menuNumber));
-                System.out.println(String.format("%d: Delete Record:", ++menuNumber));
+                System.out.println(String.format("%d: Return to Main Menu", 0));
+                System.out.println(String.format("%d: Update Record", ++menuNumber));
+                System.out.println(String.format("%d: Add New Record", ++menuNumber));
+                System.out.println(String.format("%d: Delete Record", ++menuNumber));
                 break;
             case List_Home_OWNERS:
             case List_Home_PROPERTIES:
             case List_REGISTERED_VEHICLES:
             case List_PROPERTY_ASSESSMENTS:
-                System.out.println(String.format("%d: Return to Previous Menu", 0));
-                System.out.println(String.format("%d: Enter ID for Details:", ++menuNumber));
+                System.out.println(String.format("%d: Return to Main Menu", 0));
+                System.out.println(String.format("%d: Update Record", ++menuNumber));
+                System.out.println(String.format("%d: Add New Record", ++menuNumber));
+                System.out.println(String.format("%d: Delete Record", ++menuNumber));
                 break;
+//                System.out.println(String.format("%d: Return to Main Menu", 0));
+//                System.out.println(String.format("%d: Enter ID for Details", ++menuNumber));
+//                break;
             case NONE:
-                System.out.println(String.format("%d: List Home Owners:", ++menuNumber));
-                System.out.println(String.format("%d: List Home Properties:", ++menuNumber));
-                System.out.println(String.format("%d: List Registered Vehicles:", ++menuNumber));
-                System.out.println(String.format("%d: List Property Assessments:", ++menuNumber));
+                System.out.println(String.format("%d: List Home Owners", ++menuNumber));
+                System.out.println(String.format("%d: List Home Properties", ++menuNumber));
+                System.out.println(String.format("%d: List Registered Vehicles", ++menuNumber));
+                System.out.println(String.format("%d: List Property Assessments", ++menuNumber));
         }
     }
 
@@ -40,7 +51,7 @@ public class Menu {
             case DETAILS_FOR_ID:
                 switch (menuNumber){
                     case 0:
-                        return MenuChoice.GO_TO_PREVIOUS_MENU;
+                        return MenuChoice.RETURN_TO_MAIN_MENU;
                     case 1:
                         return MenuChoice.UPDATE_RECORD;
                     case 2:
@@ -56,7 +67,7 @@ public class Menu {
             case List_PROPERTY_ASSESSMENTS:
                 switch (menuNumber){
                     case 0:
-                        return MenuChoice.GO_TO_PREVIOUS_MENU;
+                        return MenuChoice.RETURN_TO_MAIN_MENU;
                     case 1:
                         return MenuChoice.DETAILS_FOR_ID;
                     default:

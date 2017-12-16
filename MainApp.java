@@ -3,14 +3,38 @@ import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
-        authenticateUser();
+        //authenticateUser();
 
         MenuChoice menuChoice = MenuChoice.NONE;
         while (true) {
             menuChoice = Menu.chooseFromMenu(menuChoice);
+            int id;
             switch (menuChoice) {
                 case List_Home_OWNERS:
-                    ListHomeOwners();
+                    HomeOwner.listAll();
+                    id = chooseAnId();
+                    HomeOwner.displayDetails(id);
+                    break;
+                case List_Home_PROPERTIES:
+                    HomeProperty.listAll();
+                    id = chooseAnId();
+                    HomeProperty.displayDetails(id);
+                    break;
+                case List_REGISTERED_VEHICLES:
+                    Vehicle.listAll();
+                    id = chooseAnId();
+                    Vehicle.displayDetails(id);
+                    break;
+                case List_PROPERTY_ASSESSMENTS:
+                    Assessment.listAll();
+                    id = chooseAnId();
+                    Assessment.displayDetails(id);
+                    break;
+                case UPDATE_RECORD:
+                    break;
+                case ADD_NEW_RECORD:
+                    break;
+                case DELETE_RECORD:
                     break;
                 default:
                     break;
@@ -18,10 +42,10 @@ public class MainApp {
         }
     }
 
-    private static void ListHomeOwners() {
-        System.out.println("============================= Home Owners ====================================");
-        Connect.printHomeOwners();
-        System.out.println("==============================================================================");
+    private static int chooseAnId(){
+        System.out.println("To get details enter an ID from above:");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
     }
 
     private static void authenticateUser() {
