@@ -1,17 +1,48 @@
 import java.sql.*;
+import java.util.Scanner;
 
-public class HomeProperty {
+public class HomeProperty implements Entity {
 
-    public static void listAll() {
+    public void listAll() {
         System.out.println("============================== Properties ====================================");
         printHomeProperties();
         System.out.println("==============================================================================");
     }
 
-    public static void displayDetails(int id) {
-        System.out.println("============================== Property Details ====================================");
+    public void displayDetails(int id) {
+        System.out.println("========================================== Property Details ======================================");
         printPropertyDetails(id);
-        System.out.println("=====================================================================================");
+        System.out.println("===================================================================================================");
+    }
+
+    public void addNew() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Street Address:");
+        String street = scanner.nextLine();
+
+        System.out.print("Enter City:");
+        String city = scanner.nextLine();
+
+        System.out.print("Enter State acronym:");
+        String state = scanner.nextLine();
+
+        System.out.print("Enter Zip Code:");
+        String zipcode = scanner.nextLine();
+
+        try {
+            HomeProperty.insert(street, city, state, zipcode);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
     }
 
     private static void printHomeProperties() {
@@ -56,6 +87,27 @@ public class HomeProperty {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void insert
+            (String street, String city, String state, String zipcode)
+            throws SQLException {
+        String sql = "insert Property (street, city, state, zipcode) "
+                + "values (?, ?, ?, ?)";
+
+        Connection conn = Connect.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, street);
+        statement.setString(2, city);
+        statement.setString(3, state);
+        statement.setString(4, zipcode);
+
+        int rowsAffected = statement.executeUpdate();
+        if (rowsAffected == 1) {
+            System.out.println("Successfully added new owner!");
+        } else {
+            System.out.println("Error Occurred!");
         }
     }
 }

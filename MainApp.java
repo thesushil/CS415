@@ -1,58 +1,65 @@
-
 import java.util.Scanner;
 
 public class MainApp {
-    public static void main(String[] args) {
-        //authenticateUser();
 
-        MenuChoice menuChoice = MenuChoice.NONE;
+    public static void main(String[] args) {
+        authenticateUser();
+
         while (true) {
-            menuChoice = Menu.chooseFromMenu(menuChoice);
-            int id;
-            switch (menuChoice) {
-                case List_Home_OWNERS:
-                    HomeOwner.listAll();
-                    id = chooseAnId();
-                    HomeOwner.displayDetails(id);
-                    break;
-                case List_Home_PROPERTIES:
-                    HomeProperty.listAll();
-                    id = chooseAnId();
-                    HomeProperty.displayDetails(id);
-                    break;
-                case List_REGISTERED_VEHICLES:
-                    Vehicle.listAll();
-                    id = chooseAnId();
-                    Vehicle.displayDetails(id);
-                    break;
-                case List_PROPERTY_ASSESSMENTS:
-                    Assessment.listAll();
-                    id = chooseAnId();
-                    Assessment.displayDetails(id);
-                    break;
-                case UPDATE_RECORD:
-                    break;
-                case ADD_NEW_RECORD:
-                    break;
-                case DELETE_RECORD:
-                    break;
-                default:
-                    break;
-            }
+            processMenu();
         }
     }
 
-    private static int chooseAnId(){
-        System.out.println("To get details enter an ID from above:");
+    private static void processMenu() {
+        MenuChoice menuChoice = ViewingMenu.chooseFromMenu();
+        int id;
+        Entity entity;
+        switch (menuChoice) {
+            case List_Home_OWNERS:
+                entity = new HomeOwner();
+                break;
+            case List_Home_PROPERTIES:
+                entity = new HomeProperty();
+                break;
+            case List_REGISTERED_VEHICLES:
+                entity = new Vehicle();
+                break;
+            case List_PROPERTY_ASSESSMENTS:
+                entity = new Assessment();
+                break;
+            default:
+                entity = new HomeOwner();
+                break;
+        }
+
+        entity.listAll();
+        id = chooseAnId();
+        entity.displayDetails(id);
+        MenuChoice nextChoice = ModifyingMenu.chooseFromMenu();
+
+        switch (nextChoice){
+            case UPDATE_RECORD:
+                entity.update();
+                break;
+            case ADD_NEW_RECORD:
+                entity.addNew();
+                break;
+            case DELETE_RECORD:
+                entity.delete();
+                break;
+        }
+    }
+
+    private static int chooseAnId() {
+        System.out.print("Enter an ID from above for details:");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
 
     private static void authenticateUser() {
         Scanner scanner = new Scanner(System.in);
-
         String firstName = null;
-        while(firstName == null) {
+        while (firstName == null) {
             System.out.print("Enter your username:");
             String username = scanner.nextLine();
             System.out.print("Enter your password:");

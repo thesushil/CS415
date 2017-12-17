@@ -1,17 +1,29 @@
 import java.sql.*;
 
-public class Assessment {
+public class Assessment implements Entity {
 
-    public static void listAll() {
+    public void listAll() {
         System.out.println("============================== Assessments ====================================");
         printHomeAssessments();
         System.out.println("================================================================================");
     }
 
-    public static void displayDetails(int id) {
+    public void displayDetails(int id) {
         System.out.println("============================== Assessment Details ====================================");
         printAssessmentDetails(id);
         System.out.println("=====================================================================================");
+    }
+
+    public void addNew() {
+
+    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
     }
 
     private static void printHomeAssessments() {

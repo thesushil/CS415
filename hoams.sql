@@ -73,10 +73,11 @@ insert Vehicle (numberPlate, stateRegistered, Year, Make, Model, Color, OwnerId)
 drop table if exists Assessment;
 create table Assessment(
 	assmtId int not null auto_increment,
-    Amount int not null,
+    amount int not null,
+    frequency varchar(10) null,
     propertyId int not null,
     primary key (assmtId)
 );
 
-insert Assessment (Amount, propertyId) values
-(540, 1), (600,2);
+insert Assessment (Amount, frequency, propertyId) values
+(540, 'monthly', 1), (600, 'monthly', 2);

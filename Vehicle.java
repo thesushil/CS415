@@ -1,16 +1,28 @@
 import java.sql.*;
 
-public class Vehicle {
-    public static void listAll() {
+public class Vehicle implements Entity {
+    public void listAll() {
         System.out.println("====================================== Vehicles ========================================");
         printVehicles();
         System.out.println("========================================================================================");
     }
 
-    public static void displayDetails(int id) {
+    public void displayDetails(int id) {
         System.out.println("====================================== Vehicle Details ===========================================");
         printVehicleDetails(id);
         System.out.println("==================================================================================================");
+    }
+
+    public void addNew() {
+
+    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
     }
 
     private static void printVehicles() {

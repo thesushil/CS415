@@ -1,17 +1,56 @@
 import java.sql.*;
+import java.util.Scanner;
 
-public class HomeOwner {
-
-    public static void listAll() {
+public class HomeOwner implements Entity {
+    public void listAll() {
         System.out.println("============================= Home Owners ====================================");
-        printHomeOwners();
+        HomeOwner.printHomeOwners();
         System.out.println("==============================================================================");
     }
 
-    public static void displayDetails(int id) {
+    public void displayDetails(int id) {
         System.out.println("============================= Home Owner Details ====================================");
-        printHomeOwnerDetails(id);
+        HomeOwner.printHomeOwnerDetails(id);
         System.out.println("=====================================================================================");
+    }
+
+    public void addNew() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter First Name:");
+        String firstName = scanner.nextLine();
+
+        System.out.print("Enter Last Name:");
+        String lastName = scanner.nextLine();
+
+        System.out.print("Enter Phone Number:");
+        String phoneNumber = scanner.nextLine();
+
+        System.out.print("Enter Email:");
+        String email = scanner.nextLine();
+
+        int id = 0;
+        boolean isValid = false;
+        while (!isValid) {
+            System.out.println("Enter Property Id:");
+            id = scanner.nextInt();
+            isValid = PreExistingValidator.validatePropertyId(id);
+            if (!isValid) System.out.println("Invalid Property Id! Try again.");
+        }
+
+        try {
+            HomeOwner.insert(firstName, lastName, phoneNumber, email, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
     }
 
     private static void printHomeOwners() {
@@ -54,6 +93,28 @@ public class HomeOwner {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void insert
+            (String firstName, String lastName, String phoneNumber, String email, int propertyId)
+            throws SQLException {
+        String sql = "insert HomeOwner (firstName, lastName, phoneNumber, email, propertyId) "
+                + "values (?, ?, ?, ? ,?)";
+
+        Connection conn = Connect.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, firstName);
+        statement.setString(2, lastName);
+        statement.setString(3, phoneNumber);
+        statement.setString(4, email);
+        statement.setInt(5, propertyId);
+
+        int rowsAffected = statement.executeUpdate();
+        if (rowsAffected == 1) {
+            System.out.println("Successfully added new owner!");
+        } else {
+            System.out.println("Error Occurred!");
         }
     }
 }

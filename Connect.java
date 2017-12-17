@@ -4,7 +4,7 @@ import java.sql.*;
 public class Connect {
 
     public static String validateCredential(String username, String password) {
-        final String sql = "select firstname from User where username=? and password=?";
+        final String sql = "select firstname from User where username=? and password=SHA(?)";
         String firstName = null;
         try (Connection conn = getConnection()) {
             if (conn == null) return null;
