@@ -5,7 +5,7 @@ public interface Entity {
 
     void addNew();
 
-    void update();
+    void update(int id);
 
-    void delete();
+    void delete(int id);
 }

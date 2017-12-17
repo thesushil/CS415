@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class MainApp {
 
     public static void main(String[] args) {
-        authenticateUser();
+        //authenticateUser();
 
         while (true) {
             processMenu();
@@ -13,40 +13,45 @@ public class MainApp {
     private static void processMenu() {
         MenuChoice menuChoice = ViewingMenu.chooseFromMenu();
         int id;
-        Entity entity;
+        Entity entity = null;
         switch (menuChoice) {
-            case List_Home_OWNERS:
+            case LIST_HOME_OWNERS:
                 entity = new HomeOwner();
                 break;
-            case List_Home_PROPERTIES:
+            case LIST_HOME_PROPERTIES:
                 entity = new HomeProperty();
                 break;
-            case List_REGISTERED_VEHICLES:
+            case LIST_REGISTERED_VEHICLES:
                 entity = new Vehicle();
                 break;
-            case List_PROPERTY_ASSESSMENTS:
+            case LIST_PROPERTY_ASSESSMENTS:
                 entity = new Assessment();
+                break;
+            case LIST_OWNERS_BY_ASSESSMENT:
+                ReportGenerator.ListOwnerByAssessment();
                 break;
             default:
                 entity = new HomeOwner();
                 break;
         }
 
-        entity.listAll();
-        id = chooseAnId();
-        entity.displayDetails(id);
-        MenuChoice nextChoice = ModifyingMenu.chooseFromMenu();
+        if (entity != null) {
+            entity.listAll();
+            id = chooseAnId();
+            entity.displayDetails(id);
+            MenuChoice nextChoice = ModifyingMenu.chooseFromMenu();
 
-        switch (nextChoice){
-            case UPDATE_RECORD:
-                entity.update();
-                break;
-            case ADD_NEW_RECORD:
-                entity.addNew();
-                break;
-            case DELETE_RECORD:
-                entity.delete();
-                break;
+            switch (nextChoice) {
+                case UPDATE_RECORD:
+                    entity.update(id);
+                    break;
+                case ADD_NEW_RECORD:
+                    entity.addNew();
+                    break;
+                case DELETE_RECORD:
+                    entity.delete(id);
+                    break;
+            }
         }
     }
 

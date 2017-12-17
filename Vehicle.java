@@ -17,12 +17,25 @@ public class Vehicle implements Entity {
 
     }
 
-    public void update() {
+    public void update(int id) {
 
     }
 
-    public void delete() {
+    public void delete(int id) {
+        String sql = "delete from vehicle where vehicleId = ?";
 
+        try (Connection conn = Connect.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 1) {
+                System.out.println("Successfully deleted Vehicle!");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error Occurred!");
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void printVehicles() {

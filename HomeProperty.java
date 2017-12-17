@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class HomeProperty implements Entity {
 
     public void listAll() {
-        System.out.println("============================== Properties ====================================");
+        System.out.println("================================= Properties =======================================");
         printHomeProperties();
-        System.out.println("==============================================================================");
+        System.out.println("====================================================================================");
     }
 
     public void displayDetails(int id) {
@@ -37,12 +37,25 @@ public class HomeProperty implements Entity {
         }
     }
 
-    public void update() {
+    public void update(int id) {
 
     }
 
-    public void delete() {
+    public void delete(int id) {
+        String sql = "delete from property where propertyId = ?";
 
+        try (Connection conn = Connect.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 1) {
+                System.out.println("Successfully deleted Property!");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error Occurred!");
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void printHomeProperties() {
@@ -52,7 +65,7 @@ public class HomeProperty implements Entity {
             if (conn == null) return;
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery(sql);
-            String displayFormat = "%-3s%-30s%-30s%-30s%-30s";
+            String displayFormat = "%-3s%-25s%-20s%-20s%-20s";
             System.out.println(String.format(displayFormat, "Id", "Street", "City", "State", "Zip Code"));
             while (result.next()) {
                 int id = result.getInt("propertyId");
